@@ -106,13 +106,30 @@ public class ToDoService {
         ToDo todo = getToDo(seq);
         //Doneの認可を確認する．他人のToDoを更新したらダメ．
         if (!mid.equals(todo.getMid())) {
-            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid 
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid
             + ": Cannot update other's todo of " + todo.getMid());
         }
         todo.setTitle(form.getTitle()); //タイトルを更新
         return tRepo.save(todo);
     }
 
+    /**
+     * 背景色を更新する．
+     * @param mid 更新者
+     * @param seq 更新するToDo番号
+     * @param background 新しい背景色
+     * @return
+     */
+    public ToDo updateBackground(String mid, Long seq, String background) {
+        ToDo todo = getToDo(seq);
+        //Doneの認可を確認する．他人のToDoを更新したらダメ．
+        if (!mid.equals(todo.getMid())) {
+            throw new ToDoAppException(ToDoAppException.INVALID_TODO_OPERATION, mid
+                    + ": Cannot update other's todo of " + todo.getMid());
+        }
+        todo.setBackground(background);
+        return tRepo.save(todo);
+    }
     /**
      * ToDoを削除する
      * @param mid 削除者
@@ -127,7 +144,5 @@ public class ToDoService {
         }
         tRepo.deleteById(seq);
     }
-
-
 
 }
